@@ -1,1 +1,3 @@
-# FIN-KRL
+# FINNISH-KARELIAN VERB DICTIONARY
+
+## Currently in development 
