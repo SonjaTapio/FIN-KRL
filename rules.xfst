@@ -1,0 +1,108 @@
+clear stack
+read lexc verbs.lexc
+define Lexicon ;
+regex Lexicon ;
+
+
+define Cons         	[ b | c | d | f | g | h | j | k | l | m | n | p | r | s | š | t | v | x | z | ' ] ;
+define Vowel        	[ a | e | i | o | u | y | ä | ö | A | E | U ] ;
+define FirstSecond		[ n | t | m m e | t t e | m m A | t t A ] ; 
+
+
+! Additions made to Finnish verbs
+define FinnAdd		0 -> k || ä _ [ e | i ] %^ .o.							! e.g., näevät -> näkevät 
+					0 -> n || o _ %^ .#. .o.  								! e.g., o -> on
+					0 -> h || ä _ [ n U t | n e e t ] .o.					! e.g., näneet -> nähneet 
+					0 -> ä || [ v e t | i e t ] _ n [ U t | e e t ] .o.		! e.g., vetnUt -> vetänUt
+					0 -> a || [ j | .#. s a | k s | t ] _ n [ U t | e e t ] .o. 		! e.g., antneet -> antaneet 
+					0 -> o || [ n n | n t | k s | j ] _ i  .o.				! e.g., annit -> annoit 
+					0 -> s || $[ k ] a _ i .o.								! e.g., kisain -> kisasin
+					a -> a a || \[ a ] _ %^ .#. .o.							! e.g., omista -> omistaa 
+					e -> e e || \[ e ] _ %^ .#. .o.							! e.g., tule -> tulee
+					o -> o o || \[ o ] _ %^ .#. .o.							! e.g., katso -> katsoo
+					ä -> ä ä || \[ ä ] _ %^ .#. .o.							! e.g., vetä -> vetää  
+					n -> n n || \[ s ] [ a a | i s a ] _ [ U t | e e t ] ; 	! e.g., maaneet -> maanneet
+
+
+! Deletions made to Finnish verbs 
+define FinnDel		k -> 0 || a _ a $[ U t | e e t ] .o.					! e.g., makannut -> maannut
+					l e -> 0 || o _ %^ .o.									! e.g., ole -> o
+					y ö -> ö || _ i .o.										! e.g., syöi -> söi
+					i -> 0 || i _ ;											! e.g., voiin -> voin
+
+
+! Substitution done to Finnish verbs 
+define FinnSub		t -> n || n _ Vowel FirstSecond .o.						! e.g., antan -> annan
+					t s -> n || _ $[ U t | e e t ] .o.						! e.g., mainitsneet -> maininneet 
+					t -> d || [ Vowel | h ] _ Vowel FirstSecond .o.			! e.g., vetän -> vedän
+					t -> r || r _ Vowel FirstSecond .o. 					! e.g., murtan -> murran
+					r -> s || r _ i .o. 									! e.g., ahertin -> ahersin
+					t -> s || [ r | i e ] _ i .o. 							! e.g., aherti -> ahersi 
+					d -> s || i e _ i .o.									! e.g., tiedin -> tiesin 
+					n -> l || l _ [ U t | e e t ] ;							! e.g., kuulneet -> kuulleet  									
+
+
+! Additions made to Karelian verbs
+define KarAdd		0 -> d || k s a _ a .#. .o. 							! e.g., maksaa -> maksada 
+					0 -> pi || \[i] %^ _ .#. ;								! e.g., tulee -> tuleepi
+
+
+! Deletions made to Karelian verbs 
+define KarDel		d -> 0 || h _ Vowel ;									! e.g., nähdä -> nähä 
+
+
+! Substitution done to Karelian verbs 
+define KarSub		a -> o || [ t | k ] _ a .#. .o.						! e.g., antaa -> antoa 
+					s -> z || $[ k i ] _ .o.							! e.g., kisata -> kizata      
+					a -> u || .#. [ s | m ] _ [ a | A ] .o.  			! e.g., maata -> muata 
+					e -> A || $[ m | t ] _ .#. .o.						! e.g., syömme -> syömmA
+					t -> s || s _ [ a | i ] FirstSecond .o. 			! e.g., omistan -> omissan 
+					t -> h || [ v | n | l ] [ a | ä | U ] _ .#. .o.		! e.g., tulevat -> tulevah 
+					A -> ä || $[ ä | ö | y ] _ .o. A -> a .o.			! vowel harmony 
+					d -> j || [ i | e ] _ [ a | ä | i ] .o.				! e.g., voida -> voija
+					d -> v || Vowel _ ä .o.								! e.g., syödä -> syövä 
+					ö -> y || y _ v .o.  								! e.g., syövä -> syyvä 
+					ä -> e || [ i | t ] _ [ .#. | ä ] \%^ .o. 			! e.g., ehtiä -> ehtie 
+					e -> i || i _ j .o.									! e.g., tiejän -> tiijän 
+					s -> š || .#. _ .o.									! e.g., syön -> šyön
+					d -> h || u a _ a .#.	;							! e.g., šuada -> šuaha
+
+define RuleCompE	 E -> 0 || [ ö | i ] _ .o. E -> e || $[ ä | ö | y | l | i t s ] _ .o. E -> A ; 
+
+define RuleCompA	 A -> ä || $[ ä | ö | y | v e | i e ] _ .o. A -> a ;
+
+define RuleCompU	 U -> y || $[ ä | ö | y ] _ .o. U -> u ; 
+
+define CleanUp       %^ -> 0 ;
+
+
+! Testing to see all Finnish surface forms are correct 
+regex   Lexicon .o.
+		RuleCompE .o.
+		RuleCompA .o. 
+		FinnSub .o.
+		FinnDel .o.
+		FinnAdd .o.
+		RuleCompU .o.
+		CleanUp ; 
+
+echo "Finnish surface forms"
+lower-words
+
+
+! Final Karelian surface forms
+
+regex   Lexicon .o.
+		RuleCompE .o.
+		RuleCompA .o. 
+		FinnSub .o.
+		FinnDel .o.
+		FinnAdd .o.
+		KarDel .o.
+		KarAdd .o.
+		KarSub .o.
+		RuleCompU .o.
+		CleanUp ;
+
+echo "Karelian surface forms"
+lower-words

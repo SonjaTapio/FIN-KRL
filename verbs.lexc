@@ -1,0 +1,63 @@
+Multichar_Symbols +Pres +Past +Perf +Inf +1P +2P +3P +Sg +Pl
+
+LEXICON Root
+        Stem ;
+
+LEXICON Stem
+omistaa                 Infinitive ;
+omistaa:omist           Tense ;
+nähdä                   Infinitive ;
+nähdä:nä                Tense ;
+tulla                   Infinitive ;
+tulla:tul               Tense ;
+kisata                  Infinitive ;
+kisata:kisa             Tense ;
+syödä                   Infinitive ;
+syödä:syö               Tense ;
+voida                   Infinitive ; 
+voida:voi               Tense ; 
+vetää                   Infinitive ; 
+vetää:vet               Tense ;
+saada                   Infinitive ; 
+saada:sa                Tense ;
+murtaa                  Infinitive ; 
+murtaa:murt             Tense ; 
+olla                    Infinitive ; 
+olla:ol                 Tense ;   
+antaa                   Infinitive ; 
+antaa:ant               Tense ;   
+maksaa                  Infinitive ; 
+maksaa:maks             Tense ;    
+maata                   Infinitive ; 
+maata:maka              Tense ; 
+kuulla                  Infinitive ; 
+kuulla:kuul             Tense ;  
+ahertaa                 Infinitive ; 
+ahertaa:ahert           Tense ; 
+tietää                  Infinitive ; 
+tietää:tiet             Tense ; 
+ajaa                    Infinitive ; 
+ajaa:aj                 Tense ;
+nostaa                  Infinitive ; 
+nostaa:nost             Tense ; 
+mainita                 Infinitive ;
+mainita:mainits         Tense ; 
+
+LEXICON Infinitive
++Inf:      # ;
+
+LEXICON Tense
++Pres:E                 VerbPerson ; 
++Past:i                 VerbPerson ; 
++Perf+Sg:nUt            # ;
++Perf+Pl:neet           # ;
+
+LEXICON VerbPerson
++1P+Sg:n        # ;
++2P+Sg:t        # ;
++3P+Sg:%^       # ;
++1P+Pl:mme      # ;
++2P+Pl:tte      # ;
++3P+Pl:%^vAt    # ;
+
+END
